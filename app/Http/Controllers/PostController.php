@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('id', 'desc')->paginate(5);
         return view('posts.index')->withPosts($posts);
     }
 
@@ -40,12 +40,14 @@ class PostController extends Controller
     {
         $this->validate($request, array(
                 'title' => 'required|max:255',
+                'slug' => 'required|alpha_dash|max:255',
                 'body' => 'required'
             ));        
 
         $post = new Post;
 
         $post->title = $request->title;
+        $post->slug = $request->slug;
         $post->body = $request->body;
 
         $post->save();
