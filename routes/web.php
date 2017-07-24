@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+#Route::group('auth/login', 'Auth\AuthController@getLogin')
+
 Route::get('blog/{slug}', ['as' => 'blog.single', 'uses' => 'BlogController@getSingle'])->where('slug', '[\w\d\-\_]+');
 
 Route::get('blog', ['uses' => 'BlogController@getIndex', 'as' => 'blog.index']);
@@ -24,3 +26,6 @@ Route::get('posts/create', 'PostsController@create');
 
 Route::resource('posts', 'PostController');
 
+Auth::routes();
+
+#Route::get('/home', 'HomeController@index')->name('home');
