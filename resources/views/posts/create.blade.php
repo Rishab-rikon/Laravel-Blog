@@ -14,6 +14,13 @@
 				{{Form::label('slug', "Slug:")}}
     			{{Form::text('slug', null, array('class' => 'form-control'))}}
     			<hr>
+    			{{Form::label('category_id', 'Category:')}}
+    			<select name="category_id" class="form-control">
+    				@foreach($categories as $category)
+    				<option value="{{$category->id}}">{{$category->name}}</option>
+    				@endforeach
+    			</select>
+    			<hr>
     			{{Form::label('body', "Post Body:")}}
     			{{Form::textarea('body', null, array('class' => 'form-control'))}}
 				<hr>

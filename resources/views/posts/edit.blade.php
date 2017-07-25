@@ -9,7 +9,14 @@
 
 			{{Form::label('title', 'Title')}}
 			{{Form::text('title', null, ['class'=> 'form-control input-lg'])}}
-
+			<hr>
+			{{Form::label('category_id', 'Category:')}}
+    			<select name="category_id" class="form-control">
+    				@foreach($categories as $category)
+    				<option value="{{$category->id}}">{{$category->name}}</option>
+    				@endforeach
+    			</select>
+			<hr>
 			{{Form::label('body', 'Post Body', ['class' => 'form-spacing-top'])}}
 			{{Form::textarea('body', null, ['class'=> 'form-control'])}}
 		</div>
