@@ -21,11 +21,12 @@ class CreateCommentsTable extends Migration
             $table->boolean('approved');
             $table->integer('post_id')->unsigned();
             $table->timestamps();
+            //$table->foreign('post_id')->refrences('id')->on('posts')->onDelete('cascade');
         });
 
-        Schema::table('comments', function($table){
-            $table->foreign('post_id')->refrences('id')->on('posts');
-        });
+        // Schema::table('comments', function($table){
+        //     $table->foreign('post_id')->refrences('id')->on('posts');
+        // });
     }
 
     /**

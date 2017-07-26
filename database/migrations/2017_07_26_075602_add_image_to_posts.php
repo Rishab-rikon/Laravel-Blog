@@ -14,7 +14,7 @@ class AddImageToPosts extends Migration
     public function up()
     {
         Schema::table('posts', function($table) {
-            $table->binary('image')->nullable()->after('slug');
+            $table->string('image')->nullable()->after('slug');
         });
     }
 
