@@ -1,6 +1,19 @@
 @extends('main')
 
-@section('title', '| Create new posts')
+@section('title', '| Create new post')
+
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=e2xfioyucn0n9nv2vmr8ie7vlwam911c1fn327czx2f3mguf"></script>
+
+<script>
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+          "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak",
+          "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+          "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+        ]
+    });
+</script>
 
 @section('content')
 	<div class="row">
