@@ -7,7 +7,6 @@
 <script>
     tinymce.init({
   	selector: 'textarea',
-  	height: 500,
   	theme: 'modern',
   	plugins: [
     	'advlist autolink lists link image charmap print preview hr anchor pagebreak',
@@ -31,7 +30,7 @@
 
 @section('content')
 	<div class="row">
-		{!! Form::model($post, ['route'=> ['posts.update', $post->id], 'method' => 'PUT']) !!}
+		{!! Form::model($post, ['route'=> ['posts.update', $post->id], 'method' => 'PUT', 'files' => true]) !!}
 		<div class="col-md-8">
 
 			{{Form::label('title', 'Title')}}
@@ -43,6 +42,9 @@
     				<option value="{{$category->id}}">{{$category->name}}</option>
     				@endforeach
     			</select>
+			<hr>
+			{{Form::label('featured_image', 'Update Featured Image')}}
+			{{Form::file('featured_image')}}
 			<hr>
 			{{Form::label('body', 'Post Body', ['class' => 'form-spacing-top'])}}
 			{{Form::textarea('body', null, ['class'=> 'form-control'])}}

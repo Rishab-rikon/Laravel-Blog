@@ -8,6 +8,8 @@ use App\Post;
 use App\Category;
 use Session;
 use Purifier;
+use Image;
+use Storage;
 
 class PostController extends Controller
 {
@@ -50,7 +52,8 @@ class PostController extends Controller
                 'title' => 'required|max:255',
                 'slug' => 'required|alpha_dash|max:255|unique:posts,slug',
                 'category_id' => 'required|integer',
-                'body' => 'required'
+                'body' => 'required',
+                'featured_image' => 'sometimes|image'
             ));        
 
         $post = new Post;
@@ -59,6 +62,16 @@ class PostController extends Controller
         $post->slug = $request->slug;
         $post->category_id = $request->category_id;
         $post->body = Purifier::clean($request->body);
+
+        //saving our image
+        if($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $filename);
+            Image::make($image)->resize(500, 500)->save($location);
+
+            $post->image = $filename;
+        }
 
         $post->save();
 
@@ -104,13 +117,24 @@ class PostController extends Controller
         $this->validate($request, array(
                 'title' => 'required|max:255',
                 'category_id' => 'required|integer', 
-                'body' => 'required'
+                'body' => 'required',
+                'featured_image' => 'image'
             ));
 
         $post = Post::find($id);
         $post->title = $request->input('title');
         $post->category_id = $request->input('category_id');        
-        $post->body = Purifier::claen($request->input('body'));
+        $post->body = Purifier::clean($request->input('body'));
+
+        if($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $filename);
+            Image::make($image)->resize(500, 500)->save($location);
+            $oldfilename = $post->image;
+            $post->image = $filename;
+            Storage::delete($oldfilename);
+        }
 
         $post->save();
 
@@ -128,6 +152,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        Storage::delete($post->image);
 
         $post -> delete();
 
